@@ -141,3 +141,4 @@ hbase/*
 hbase-2.3.4/*
 zookeeper*
 thrift*
+Vagrantfile
