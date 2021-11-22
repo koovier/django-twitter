@@ -127,3 +127,20 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+<<<<<<< HEAD
+*.box
+=======
+
+#Vertual Environment
+*.box
+.vagrant
+Vagrantfile
+*.DS_Store
+__pycache__
+.idea
+local_settings.py
+media/
+hbase/*
+hbase-2.3.4/*
+zookeeper*
+thrift*
