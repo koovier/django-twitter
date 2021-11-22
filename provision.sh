@@ -30,12 +30,12 @@ fi
 # python -m pip install --upgrade pip
 # 换源完美解决
 # 安装pip所需依赖
-pip install --upgrade setuptools -i https://pypi.tuna.tsinghua.edu.cn/simple
-pip install --ignore-installed wrapt -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install --upgrade setuptools #-i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install --ignore-installed wrapt #-i https://pypi.tuna.tsinghua.edu.cn/simple
 # 安装pip最新版
-pip install -U pip -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install -U pip #-i https://pypi.tuna.tsinghua.edu.cn/simple
 # 根据 requirements.txt 里的记录安装 pip package，确保所有版本之间的兼容性
-pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install -r requirements.txt #s-i https://pypi.tuna.tsinghua.edu.cn/simple
 
 sudo apt-get install tree
 
