@@ -131,7 +131,7 @@ dmypy.json
 #Vertual Environment
 *.box
 .vagrant
-Vagrantfile
+#Vagrantfile
 *.DS_Store
 __pycache__
 .idea
