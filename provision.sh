@@ -80,7 +80,7 @@ python manage.py migrate
 # superuser名字
 USER="admin"
 # superuser密码
-PASS="admin"
+PASS="0000"
 # superuser邮箱
 MAIL="admin@twitter.com"
 script="
