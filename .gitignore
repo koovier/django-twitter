@@ -127,6 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/.pycharm_helpers/
+
 
 #Vertual Environment
 *.box
