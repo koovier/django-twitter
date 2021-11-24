@@ -2,7 +2,12 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from accounts.api.serializers import UserSerializer, LoginSerializer, SignUpSerializer
+from rest_framework.permissions import AllowAny
+from accounts.api.serializers import (
+    UserSerializer,
+    LoginSerializer,
+    SignUpSerializer
+)
 from django.contrib.auth import (
     authenticate as django_authenticate,
     login as django_login,
@@ -20,6 +25,7 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class AccountViewSet(viewsets.ViewSet):
+    permission_classes = (AllowAny,)
     serializer_class = SignUpSerializer
 
     @action(methods=['GET'], detail=False)
@@ -30,14 +36,11 @@ class AccountViewSet(viewsets.ViewSet):
         return Response(data)
 
     @action(methods=['POST'], detail=False)
-    def logout(self, request):
-        django_logout(request)
-        return Response({'success': True})
-
-    @action(methods=['POST'], detail=False)
     def login(self, request):
         # get username and password from request
-        serializer = LoginSerializer(data=request.data)
+        # default user : admin
+        # default password : 0000
+        serializer = LoginSerializer(data=request.data)  # request.data is not an instant
         if not serializer.is_valid():
             return Response({
                 'success': False,
@@ -47,13 +50,6 @@ class AccountViewSet(viewsets.ViewSet):
         username = serializer.validated_data['username']
         password = serializer.validated_data['password']
         user = django_authenticate(request, username=username, password=password)
-
-        if not User.objects.filter(username=username).exists():
-            return Response({
-                'success': False,
-                'message': 'User does not exists.',
-            }, status=400)
-
         if not user or user.is_anonymous:
             return Response({
                 'success': False,
@@ -64,6 +60,11 @@ class AccountViewSet(viewsets.ViewSet):
             'success': True,
             'user': UserSerializer(instance=user).data,
         })
+
+    @action(methods=['POST'], detail=False)
+    def logout(self, request):
+        django_logout(request)
+        return Response({'success': True})
 
     @action(methods=['POST'], detail=False)
     def signup(self, request):
