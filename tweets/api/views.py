@@ -35,6 +35,18 @@ class TweetViewSet(viewsets.GenericViewSet,
         tweet = serializer.save()
         return Response(TweetSerializer(tweet).data, status=201)
 
+    def list(self, request, *args, **kwargs):
+        # override list method. add filter with user_id.
+        if 'user_id' not in request.query_params:
+            return Response('missing user_id', status=400)
+
+        tweets = Tweet.objects.filter(
+            user_id=request.query_params['user_id']
+        ).order_by('-created_at')
+        serializer = TweetSerializer(tweets, many=True)
+        return Response({'tweets': serializer.data})
+
+
 
 
 
