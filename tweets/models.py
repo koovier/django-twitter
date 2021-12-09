@@ -13,7 +13,7 @@ class Tweet(models.Model):
         ordering = ('user', '-created_at')
 
     @property
-    def hour_to_now(self):
+    def hours_to_now(self):
         return (utc_now() - self.created_at).seconds // 3600
 
     def __str__(self):
