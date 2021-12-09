@@ -23,23 +23,23 @@ if [ ! -f "/usr/bin/pip" ]; then
   sudo apt-get install -y python-setuptools
   sudo ln -s /usr/bin/pip3 /usr/bin/pip
 else
-  echo "pip3 已安装"
+  echo "pip3 already installed."
 fi
 
 # 升级pip，目前存在问题，read timed out，看脸，有时候可以，但大多时候不行
 # python -m pip install --upgrade pip
 # 换源完美解决
 # 安装pip所需依赖
-pip install --upgrade setuptools #-i https://pypi.tuna.tsinghua.edu.cn/simple
-pip install --ignore-installed wrapt #-i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install --upgrade setuptools
+pip install --ignore-installed wrapt
 # 安装pip最新版
 pip install -U pip #-i https://pypi.tuna.tsinghua.edu.cn/simple
 # 根据 requirements.txt 里的记录安装 pip package，确保所有版本之间的兼容性
-pip install -r requirements.txt #s-i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install -r requirements.txt
 
 sudo apt-get install tree
 
-# 安装配置mysql8
+# Install and setup mysql8
 if ! [ -e /vagrant/mysql-apt-config_0.8.15-1_all.deb ]; then
 	wget -c https://dev.mysql.com/get/mysql-apt-config_0.8.15-1_all.deb
 fi
@@ -77,11 +77,11 @@ cd /vagrant
 
 python manage.py migrate
 
-# superuser名字
+# superuser name
 USER="admin"
-# superuser密码
+# superuser password
 PASS="0000"
-# superuser邮箱
+# superuser email
 MAIL="admin@twitter.com"
 script="
 from django.contrib.auth.models import User;
