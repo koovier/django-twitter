@@ -14,20 +14,20 @@ class FriendshipApiTests(TestCase):
     def setUp(self):
         self.anonymous_client = APIClient()
 
-        self.sheldon = self.create_user('sheldon')
+        self.sheldon = self.create_user('sheldon', 'sheldon@cit.edu')
         self.sheldon_client = APIClient()
         self.sheldon_client.force_authenticate(self.sheldon)
 
-        self.leonard = self.create_user('leonard')
+        self.leonard = self.create_user('leonard', 'leonard@cit.edu')
         self.leonard_client = APIClient()
         self.leonard_client.force_authenticate(self.leonard)
 
         # create followings and followers for sheldon
         for i in range(2):
-            follower = self.create_user('sheldon_follower{}'.format(i))
-            Friendship.objects.create(from_user=follower, to_user=self.sheldon.id)
+            follower = self.create_user('sheldon_follower{}'.format(i), 'follower{}@google.com'.format(i))
+            Friendship.objects.create(from_user=follower, to_user=self.sheldon)
         for i in range(3):
-            following = self.create_user('sheldon_following{}'.format(i))
+            following = self.create_user('sheldon_following{}'.format(i), 'following{}@google.com'.format(i))
             Friendship.objects.create(from_user=self.sheldon, to_user=following)
 
     def test_follow(self):
@@ -79,14 +79,14 @@ class FriendshipApiTests(TestCase):
         Friendship.objects.create(from_user=self.sheldon, to_user=self.leonard)
         count = Friendship.objects.count()
         response = self.sheldon_client.post(url)
-        self.assertEqual(response.status, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['deleted'], 1)
         self.assertEqual(Friendship.objects.count(), count - 1)
 
         # return 200 if not following
         count = Friendship.objects.count()
         response = self.sheldon_client.post(url)
-        self.assertEqual(response.status, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['deleted'], 0)
         self.assertEqual(Friendship.objects.count(), count)
 
@@ -111,7 +111,7 @@ class FriendshipApiTests(TestCase):
         self.assertEqual(response.data['followings'][1]['user']['username'], 'sheldon_following1')
         self.assertEqual(response.data['followings'][2]['user']['username'], 'sheldon_following0')
 
-    def tess_followers(self):
+    def test_followers(self):
         url = FOLLOWERS_URL.format(self.sheldon.id)
 
         # 405 for using post method
@@ -123,11 +123,11 @@ class FriendshipApiTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data['followers']), 2)
         # order by time, recent first
-        ts0 = response.data['followings'][0]['created_at']
-        ts1 = response.data['followings'][1]['created_at']
+        ts0 = response.data['followers'][0]['created_at']
+        ts1 = response.data['followers'][1]['created_at']
         self.assertTrue(ts0 > ts1)
-        self.assertEqual(response.data['followings'][0]['user']['username'], 'sheldon_follower1')
-        self.assertEqual(response.data['followings'][1]['user']['username'], 'sheldon_follower0')
+        self.assertEqual(response.data['followers'][0]['user']['username'], 'sheldon_follower1')
+        self.assertEqual(response.data['followers'][1]['user']['username'], 'sheldon_follower0')
 
 
 
