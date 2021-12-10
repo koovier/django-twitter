@@ -20,8 +20,8 @@ class FriendshipViewSet(viewsets.GenericViewSet):
     @action(methods=['GET'], detail=True, permission_classes=[AllowAny])
     def followings(self, request, pk):
         friendships = Friendship.objects.filter(from_user_id=pk).order_by('-created_at')
-        serializer = FollowerSerializer(friendships, many=True)
-        return Response({'following': serializer.data}, status=status.HTTP_200_OK, )
+        serializer = FollowingSerializer(friendships, many=True)
+        return Response({'followings': serializer.data}, status=status.HTTP_200_OK, )
 
     @action(methods=['POST'], detail=True, permission_classes=[IsAuthenticated])
     def follow(self, request, pk):
