@@ -12,7 +12,8 @@ FOLLOW_URL = '/api/friendships/{}/follow/'
 class NewsFeedTest(TestCase):
 
     def setUp(self):
-        self.anonymous_client = APIClient()
+        # self.anonymous_client = APIClient()
+        # add anonymous client in testcase
 
         self.leonard = self.create_user('leonard', 'leonard@cit.edu')
         self.leonard_client = APIClient()

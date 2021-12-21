@@ -3,7 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import viewsets, status
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from friendships.api.serializer import FollowerSerializer, FriendshipSerializerForCreate, FollowingSerializer
+from friendships.api.serializers import FollowerSerializer, FriendshipSerializerForCreate, FollowingSerializer
 from django.contrib.auth.models import User
 from friendships.models import Friendship
 
