@@ -45,6 +45,7 @@ class CommentSerializerForCreate(serializers.ModelSerializer):
             content=validated_data['content'],
         )
 
+
 class CommentSerializerForUpdate(serializers.ModelSerializer):
     class Meta:
         model = Comment
