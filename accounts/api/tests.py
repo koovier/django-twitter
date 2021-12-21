@@ -91,7 +91,6 @@ class AccountApiTests(TestCase):
             'email': 'wrong email format',
             'password': 'correct password',
         })
-        print(response.data)
         self.assertEqual(response.status_code, 400)
 
         # 400 for password too short
@@ -100,7 +99,6 @@ class AccountApiTests(TestCase):
             'email': 'someone@jiuzhang.com',
             'password': '12345',
         })
-        print(response.data)
         self.assertEqual(response.status_code, 400)
 
         # 400 for username too long
@@ -109,7 +107,6 @@ class AccountApiTests(TestCase):
             'email': 'someone@jiuzhang.com',
             'password': 'correct password',
         })
-        print(response.data)
         self.assertEqual(response.status_code, 400)
 
         # 200 for successfully sign up
