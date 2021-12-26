@@ -20,6 +20,7 @@ class Tweet(models.Model):
         return f'{self.created_at} {self.user}:{self.content}'
     """
     # this is one way to add comment to tweet.
+    # 
     @property
     def comments(self):
         # return Comment.objects.filter(tweet=self)

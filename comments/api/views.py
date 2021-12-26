@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from comments.models import Comment
 from comments.api.serializers import CommentSerializer, CommentSerializerForCreate, CommentSerializerForUpdate
 from comments.api.permissions import IsObjectOwner
+from utils.decorators import required_params
 
 
 class CommentViewSet(viewsets.GenericViewSet):
@@ -25,9 +26,10 @@ class CommentViewSet(viewsets.GenericViewSet):
             return [IsAuthenticated(), IsObjectOwner()]
         return [AllowAny()]
 
-    @required_params(request_attr='query_params', params=['user_id'])
+    @required_params(params=['tweet_id'])
     def list(self, request, *args, **kwargs):
-        """GET: query_parrams
+        """
+        GET: query_params
         POST: data
         default: use query_params
         """
@@ -38,7 +40,8 @@ class CommentViewSet(viewsets.GenericViewSet):
             }, status=status.HTTP_400_BAD_REQUEST)
         queryset = self.get_queryset()
         # use prefetch_related to reduce sql query
-        comments = self.filter_queryset(queryset).prefetch_related('user').order_by('created_at')
+        # comments = self.filter_queryset(queryset).prefetch_related('user').order_by('created_at')
+        comments = self.filter_queryset(queryset).order_by('created_at')
         serializer = CommentSerializer(comments, many=True)
         return Response({
             'comments': serializer.data,

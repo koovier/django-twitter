@@ -28,6 +28,11 @@ class TweetCreateSerializer(serializers.ModelSerializer):
 
 class TweetSerializerWithComments(TweetSerializer):
     comments = CommentSerializer(source='comment_set', many=True)
+
+    class Meta:
+        model = Tweet
+        fields = ('id', 'user', 'comments', 'created_at', 'content')
+
     # Another way to do it - #TODO list
     """
     comments= serializers.SerializerMethodField()
