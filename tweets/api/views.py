@@ -48,6 +48,12 @@ class TweetViewSet(viewsets.GenericViewSet,
         serializer = TweetSerializer(tweets, many=True)
         return Response({'tweets': serializer.data})
 
+    def retrieve(self, request, *args, **kwargs):
+        # use query & param: with_all_comments to determine whether to get all comments #TODO
+        # query & param: with_preview_comments to determine whether to get first 3 comments #TODO
+        tweet = self.get_object()
+        return Response(TweetSerializerWithComments(tweet).data)
+
 
 
 

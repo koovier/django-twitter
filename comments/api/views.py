@@ -25,7 +25,12 @@ class CommentViewSet(viewsets.GenericViewSet):
             return [IsAuthenticated(), IsObjectOwner()]
         return [AllowAny()]
 
+    @required_params(request_attr='query_params', params=['user_id'])
     def list(self, request, *args, **kwargs):
+        """GET: query_parrams
+        POST: data
+        default: use query_params
+        """
         if 'tweet_id' not in request.query_params:
             return Response({
                 'message': 'missing tweet_id in request',
@@ -38,8 +43,6 @@ class CommentViewSet(viewsets.GenericViewSet):
         return Response({
             'comments': serializer.data,
         }, status=status.HTTP_200_OK)
-
-
 
     def create(self, request, *args, **kwargs):
         data = {
